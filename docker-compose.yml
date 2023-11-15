@@ -1,0 +1,30 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "80:80"
+    environment:
+      - API_USER=arduino
+      - API_PASSWORD=LSE]RaF(Ngu9M6
+      - ADMIN_NAME=Administrador
+      - ADMIN_EMAIL=test@gmail.com
+      - ADMIN_PASSWORD=12345678
+    depends_on:
+      - db
+    command: >
+      bash -c "php artisan key:generate &&
+               php artisan migrate &&
+               php artisan db:seed"
+  db:
+    image: mysql:8.0.30
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: mileniumcombustibles_web
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+
+volumes:
+  dbdata:
