@@ -13,9 +13,11 @@ services:
     depends_on:
       - db
     command: >
-      bash -c "php artisan key:generate &&
-               php artisan migrate &&
-               php artisan db:seed"
+      /bin/bash -c "./wait-for-db.sh db &&
+                   php artisan key:generate &&
+                   php artisan migrate &&
+                   php artisan db:seed &&
+                   apache2-foreground"
   db:
     image: mysql:8.0.30
     environment:
